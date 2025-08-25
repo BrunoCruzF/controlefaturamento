@@ -9,12 +9,8 @@
 <script src="https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
   :root{
-    --header-h: 84px;     /* altura da barra */
-    --logo-size: 84px;    /* altura da logo */
-    --page-max: 1500px;
-    --base-table-h: 520px;
-    --regs-table-h: 640px;
-
+    --header-h: 84px; --logo-size: 84px;
+    --page-max: 1500px; --base-table-h: 520px; --regs-table-h: 640px;
     --bg:#0f172a; --panel:#111827; --card:#0b1222; --input:#0b1222;
     --border:#1f2937; --accent:#22d3ee; --ok:#10b981; --warn:#f59e0b; --danger:#ef4444;
     --text:#e5e7eb; --muted:#94a3b8; --theadbg:#1b2338; --thcolor:#fef08a; --watermark:#9ca3af;
@@ -25,115 +21,55 @@
     --text:#0f172a; --muted:#475569; --theadbg:#eef2f7; --thcolor:#334155; --watermark:#64748b;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0; font-family:Inter, system-ui, Segoe UI, Arial, sans-serif;
-    background: radial-gradient(1200px 800px at 10% -5%, #0b1329 0%, #0a0f1f 40%, #060a16 100%), var(--bg);
-    color:var(--text);
-  }
+  body{ margin:0; font-family:Inter, system-ui, Segoe UI, Arial, sans-serif;
+    background: radial-gradient(1200px 800px at 10% -5%, #0b1329 0%, #0a0f1f 40%, #060a16 100%), var(--bg); color:var(--text);}
   body.light{ background: var(--bg); }
 
-  header{
-    display:flex; align-items:center; gap:14px;
-    height: var(--header-h);
-    padding: 0 24px;
-    border-bottom:1px solid var(--border);
-    position:sticky; top:0; z-index:5;
-    backdrop-filter: blur(8px);
-    background: linear-gradient(to bottom, rgba(8,12,24,.9), rgba(8,12,24,.6));
-  }
+  header{ display:flex; align-items:center; gap:14px; height: var(--header-h); padding:0 24px;
+    border-bottom:1px solid var(--border); position:sticky; top:0; z-index:5; backdrop-filter: blur(8px);
+    background: linear-gradient(to bottom, rgba(8,12,24,.9), rgba(8,12,24,.6)); }
   body.light header{ background: linear-gradient(to bottom, rgba(255,255,255,.9), rgba(255,255,255,.7)); }
-
   .logo{ height:100%; display:flex; align-items:center }
   .logo img{ height:var(--logo-size); width:auto; object-fit:contain; display:block }
-
   h1{font-size:18px; margin:0; letter-spacing:.2px}
   .spacer{ flex:1 }
   .tabs{ display:flex; gap:8px; }
-  .tab{
-    border:1px solid var(--border);
-    padding:10px 14px; border-radius:12px; background:var(--panel);
-    color:var(--text); cursor:pointer; font-weight:600; font-size:14px;
-  }
-  .tab.active{ outline:2px solid var(--accent); background:#0c1426; color:#e2e8f0 }
-  body.light .tab.active{ background:#eaf6ff; color:#0f172a }
-
+  .tab{ border:1px solid var(--border); padding:10px 14px; border-radius:12px; background:var(--panel); color:var(--text); cursor:pointer; font-weight:600; font-size:14px;}
+  .tab.active{ outline:2px solid var(--accent); background:#0c1426; color:#e2e8f0 } body.light .tab.active{ background:#eaf6ff; color:#0f172a }
   .theme-toggle{ border:1px solid var(--border); background:var(--panel); color:var(--text); padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:700 }
-
   main{padding:24px; max-width:var(--page-max); margin:0 auto}
   .card{ border:1px solid var(--border); border-radius:16px; background:var(--card); padding:18px; box-shadow: 0 10px 30px rgba(0,0,0,.15) }
-  .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center }
-  .row > *{ flex:1 1 220px }
+  .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center } .row > *{ flex:1 1 220px }
   label{ font-size:12px; color:var(--muted); display:block; margin-bottom:6px }
   input, select, button{ font-family:inherit; font-size:14px }
-  input, select{
-    width:100%; padding:12px 14px; border-radius:12px;
-    border:1px solid var(--border); background:var(--input);
-    color:var(--text); outline:none;
-  }
+  input, select{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:var(--input); color:var(--text); outline:none; }
   input[readonly]{ opacity:.9; cursor:not-allowed }
-  .btn{
-    border:1px solid var(--border); background:#0c1426; color:#e5e7eb;
-    padding:11px 14px; border-radius:12px; cursor:pointer; font-weight:700;
-  }
-  body.light .btn{ background:#0f172a; color:#e5e7eb }
-  .btn.sm{ padding:6px 10px; border-radius:10px; font-weight:700 }
+  .btn{ border:1px solid var(--border); background:#0c1426; color:#e5e7eb; padding:11px 14px; border-radius:12px; cursor:pointer; font-weight:700; }
+  body.light .btn{ background:#0f172a; color:#e5e7eb } .btn.sm{ padding:6px 10px; border-radius:10px; font-weight:700 }
   .btn.accent{ background:linear-gradient(135deg, #0ea5e9, var(--accent)); color:#081019; border:none }
   .btn.success{ background:linear-gradient(135deg, #34d399, var(--ok)); color:#06120d; border:none }
   .btn.warn{ background:linear-gradient(135deg, #f59e0b, #fbbf24); color:#1a1004; border:none }
   .btn.danger{ background:linear-gradient(135deg, #ef4444, #f87171); color:#180506; border:none }
-
-  table{ width:100%; border-collapse:collapse; font-size:14px; }
-  th, td{ border-bottom:1px solid var(--border); padding:10px 8px; text-align:left; white-space:nowrap; vertical-align:middle; color:var(--text) }
-  th{ color:var(--thcolor); background:var(--theadbg); position:sticky; top:0; z-index:1 }
-  tbody tr:hover{ background:rgba(0,0,0,.06) }
-  body.light tbody tr:hover{ background:#f5f7fb }
-
+  table{ width:100%; border-collapse:collapse; font-size:14px; } th, td{ border-bottom:1px solid var(--border); padding:10px 8px; text-align:left; white-space:nowrap; vertical-align:middle; color:var(--text) }
+  th{ color:var(--thcolor); background:var(--theadbg); position:sticky; top:0; z-index:1 } tbody tr:hover{ background:rgba(0,0,0,.06) } body.light tbody tr:hover{ background:#f5f7fb }
   .muted{ color:var(--muted) }
-  .pill{
-    padding:4px 10px; background:#0e172e; border:1px solid var(--border); border-radius:999px;
-    font-size:12px; color:#cbd5e1
-  }
+  .pill{ padding:4px 10px; background:#0e172e; border:1px solid var(--border); border-radius:999px; font-size:12px; color:#cbd5e1 }
   body.light .pill{ background:#eef2f7; color:#334155 }
-
   .table-scroll{ overflow:auto; border:1px solid var(--border); border-radius:12px; }
-  #baseTableWrap{ max-height: var(--base-table-h); }
-  #regTableWrap{ max-height: var(--regs-table-h); }
-
+  #baseTableWrap{ max-height: var(--base-table-h); } #regTableWrap{ max-height: var(--regs-table-h); }
   .totais{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
-  .tot{ border:1px solid var(--border); border-radius:12px; padding:10px 14px; background:rgba(0,0,0,.06); min-width:160px; }
-  body.light .tot{ background:#f8fafc }
-  .tot .lbl{ font-size:12px; color:var(--muted) }
-  .tot .val{ font-size:16px; font-weight:800; margin-top:4px }
-
-  .diff{ font-weight:800 }
-  .diff.zero{ color:var(--ok) }
-  .diff.nonzero{ color:var(--danger) }
-
-  .vs{ font-weight:600 }
-  .vs-zero{ color:var(--warn) }      /* R$ 0,00 => alerta */
-  .vs-36{ color:var(--danger); font-weight:800 } /* R$ 36,00 => vermelho forte */
-
-  .icon-btn{
-    display:inline-flex; align-items:center; justify-content:center;
-    width:34px; height:34px; border-radius:10px;
-    background:transparent; border:1px solid var(--border); color:var(--text);
-    cursor:pointer; transition:transform .05s ease, background .15s ease;
-  }
-  .icon-btn:hover{ background:rgba(255,255,255,.06) }
-  .icon-btn:active{ transform:scale(.98) }
-  .icon-btn.danger{ border-color: rgba(239,68,68,.5) }
-  .icon-btn svg{ width:18px; height:18px; display:block }
-
-  .watermark{
-    position:fixed; left:50%; transform:translateX(-50%);
-    bottom:10px; font-size:12px; color:var(--watermark); opacity:.5; z-index:2;
-    user-select:none; pointer-events:none;
-  }
+  .tot{ border:1px solid var(--border); border-radius:12px; padding:10px 14px; background:rgba(0,0,0,.06); min-width:160px; } body.light .tot{ background:#f8fafc }
+  .tot .lbl{ font-size:12px; color:var(--muted) } .tot .val{ font-size:16px; font-weight:800; margin-top:4px }
+  .diff{ font-weight:800 } .diff.zero{ color:var(--ok) } .diff.nonzero{ color:var(--danger) }
+  .vs{ font-weight:600 } .vs-zero{ color:var(--warn) } .vs-36{ color:var(--danger); font-weight:800 }
+  .icon-btn{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:10px; background:transparent; border:1px solid var(--border); color:var(--text); cursor:pointer; transition:transform .05s ease, background .15s ease; }
+  .icon-btn:hover{ background:rgba(255,255,255,.06) } .icon-btn:active{ transform:scale(.98) } .icon-btn.danger{ border-color: rgba(239,68,68,.5) } .icon-btn svg{ width:18px; height:18px; display:block }
+  .watermark{ position:fixed; left:50%; transform:translateX(-50%); bottom:10px; font-size:12px; color:var(--watermark); opacity:.5; z-index:2; user-select:none; pointer-events:none; }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo"><img src="./assets/logo.png" alt="Logo"></div>
+  <div class="logo"><img src="./logo.png" alt="Logo"></div>
   <h1>Controle de Lançamentos por Quinzena</h1>
   <div class="spacer"></div>
   <button id="themeToggle" class="theme-toggle">🌙 Escuro</button>
@@ -150,29 +86,15 @@
     <h2 style="margin:6px 0 14px 0;">Importar / Atualizar Base</h2>
     <p class="muted" style="margin-top:-4px">Colunas esperadas: <span class="pill">CT-e/Minuta</span> <span class="pill">Emissão</span> <span class="pill">Nota Fiscal</span> <span class="pill">Valor Serviço</span></p>
     <div class="row" style="margin-top:10px">
-      <div>
-        <label>Arquivo XLSX</label>
-        <input id="fileInput" type="file" accept=".xlsx,.xls" />
-      </div>
-      <div style="align-self:flex-end">
-        <button class="btn accent" id="btnImport">Importar & Mesclar Base</button>
-      </div>
-      <div style="align-self:flex-end">
-        <button class="btn warn" id="btnClearBase">Limpar Base (SQL)</button>
-      </div>
+      <div><label>Arquivo XLSX</label><input id="fileInput" type="file" accept=".xlsx,.xls" /></div>
+      <div style="align-self:flex-end"><button class="btn accent" id="btnImport">Importar & Mesclar Base</button></div>
+      <div style="align-self:flex-end"><button class="btn warn" id="btnClearBase">Limpar Base (SQL)</button></div>
     </div>
     <p id="baseInfo" class="muted" style="margin-top:6px"></p>
     <h3 style="margin:12px 0 10px 0;">Prévia da Base</h3>
     <div id="baseTableWrap" class="table-scroll">
       <table id="baseTable">
-        <thead>
-          <tr>
-            <th>CT-e/Minuta</th>
-            <th>Emissão</th>
-            <th>Nota Fiscal</th>
-            <th>Valor Serviço</th>
-          </tr>
-        </thead>
+        <thead><tr><th>CT-e/Minuta</th><th>Emissão</th><th>Nota Fiscal</th><th>Valor Serviço</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -253,75 +175,42 @@
 <!-- App (modular ESM) -->
 <script type="module">
   // ====== CONFIGURE AQUI ======
-  const SUPABASE_URL = 'https://SEU-PROJETO.supabase.co';
-  const SUPABASE_ANON_KEY = 'ey...COLE_SUA_ANON_KEY_AQUI...';
+  const SUPABASE_URL = 'https://dqeroxusozdnjmjxtbtk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxZXJveHVzb3pkbmptanh0YnRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNTUwMjEsImV4cCI6MjA3MTczMTAyMX0.CqyUUZ0qPZUWMvp_if7Zo_hf6XIIhbz1PooLXRKgVIc';
   // ============================
 
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
   const supa = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  /* ---------- Tema ---------- */
+  /* Tema */
   const themeToggle = document.getElementById('themeToggle');
-  function applyTheme(t){
-    document.body.classList.toggle('light', t==='light');
-    localStorage.setItem('pf_theme', t);
-    themeToggle.textContent = (t==='light') ? '☀️ Claro' : '🌙 Escuro';
-  }
+  function applyTheme(t){ document.body.classList.toggle('light', t==='light'); localStorage.setItem('pf_theme', t); themeToggle.textContent = (t==='light') ? '☀️ Claro' : '🌙 Escuro'; }
   applyTheme(localStorage.getItem('pf_theme') || 'dark');
-  themeToggle.addEventListener('click', ()=>{
-    const cur = localStorage.getItem('pf_theme') || 'dark';
-    applyTheme(cur==='dark' ? 'light' : 'dark');
-  });
+  themeToggle.addEventListener('click', ()=>{ const cur = localStorage.getItem('pf_theme') || 'dark'; applyTheme(cur==='dark' ? 'light' : 'dark'); });
 
-  /* ---------- Utils ---------- */
+  /* Utils */
   const BRL = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
   const toBRL = v => BRL.format(Number(v||0));
   const computeCobrar = (nf, icms) => (Number(nf||0) - Number(icms||0)) * 0.40;
-  function parseMoney(val){
-    if(val === null || val === undefined || val === '') return 0;
-    if(typeof val === 'number') return val;
-    const s = String(val).trim()
-      .replace(/[^\d,.-]/g,'')
-      .replace(/\.(?=\d{3}(,|$))/g,'')
-      .replace(',', '.');
-    const n = Number(s);
-    return isFinite(n) ? n : 0;
-  }
+  function parseMoney(val){ if(val==null||val==='') return 0; if(typeof val==='number') return val;
+    const s=String(val).trim().replace(/[^\d,.-]/g,'').replace(/\.(?=\d{3}(,|$))/g,'').replace(',', '.'); const n=Number(s); return isFinite(n)?n:0; }
   function isoToBR(iso){ if(!iso) return ''; const [y,m,d]=iso.split('-'); return `${d}/${m}/${y}`; }
-  function monthKeyFromISO(iso){ if(!iso) return ''; const [y,m]=iso.split('-'); return `${y}-${m}`; }
   function calcQuinzenaFromISO(iso){ if(!iso) return 1; const d=Number(iso.split('-')[2]); return d<=15?1:2; }
-  function toISOfromXLSX(v){
-    if(!v && v!==0) return null;
+  function toISOfromXLSX(v){ if(!v&&v!==0) return null;
     if(v instanceof Date){ const y=v.getFullYear(), m=String(v.getMonth()+1).padStart(2,'0'), d=String(v.getDate()).padStart(2,'0'); return `${y}-${m}-${d}`; }
-    if(typeof v === 'number'){ const epoch=new Date(1899,11,30); const d=new Date(epoch.getTime()+v*86400000); return d.toISOString().slice(0,10); }
+    if(typeof v==='number'){ const epoch=new Date(1899,11,30); const d=new Date(epoch.getTime()+v*86400000); return d.toISOString().slice(0,10); }
     const s=String(v).trim(); if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-    let m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/); if(m){ let [_,a,b,c]=m; c=c.length===2?'20'+c:c; let dia=a,mes=b; if(Number(a)<=12&&Number(b)>12){dia=b;mes=a;} return `${c.padStart(4,'0')}-${String(mes).padStart(2,'0')}-${String(dia).padStart(2,'0')}`; }
-    return null;
-  }
-  function setMoneyMask(input){
-    input.addEventListener('input', () => {
-      const raw = input.value.replace(/[^\d]/g,'');
-      const v = (Number(raw) / 100).toFixed(2).replace('.',',');
-      input.value = v === 'NaN' ? '' : 'R$ ' + v.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    });
-    input.addEventListener('blur', () => { if(!input.value) input.value = 'R$ 0,00'; });
-  }
+    const m=s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/); if(m){ let[,a,b,c]=m; if(c.length===2)c='20'+c; let dd=a,mm=b; if(Number(a)<=12&&Number(b)>12){dd=b;mm=a} return `${c.padStart(4,'0')}-${String(mm).padStart(2,'0')}-${String(dd).padStart(2,'0')}` }
+    return null; }
+  function setMoneyMask(input){ input.addEventListener('input', ()=>{ const raw=input.value.replace(/[^\d]/g,''); const v=(Number(raw)/100).toFixed(2).replace('.',','); input.value = v==='NaN'?'':'R$ '+v.replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }); input.addEventListener('blur',()=>{ if(!input.value) input.value='R$ 0,00'; }); }
 
-  /* ---------- Tabs ---------- */
+  /* Tabs */
   const tabs = document.querySelectorAll('.tab');
-  const sections = {
-    base: document.getElementById('tab-base'),
-    lancamento: document.getElementById('tab-lancamento'),
-    registros: document.getElementById('tab-registros')
-  };
-  function goTab(name){
-    tabs.forEach(x => x.classList.toggle('active', x.dataset.tab===name));
-    Object.entries(sections).forEach(([k,sec]) => sec.style.display = (k===name?'':'none'));
-  }
+  const sections = { base: document.getElementById('tab-base'), lancamento: document.getElementById('tab-lancamento'), registros: document.getElementById('tab-registros') };
+  function goTab(name){ tabs.forEach(x => x.classList.toggle('active', x.dataset.tab===name)); Object.entries(sections).forEach(([k,sec]) => sec.style.display = (k===name?'':'none')); }
   tabs.forEach(t => t.addEventListener('click', () => goTab(t.dataset.tab)));
 
-  /* ---------- Base ---------- */
+  /* Base */
   const fileInput = document.getElementById('fileInput');
   const btnImport = document.getElementById('btnImport');
   const btnClearBase = document.getElementById('btnClearBase');
@@ -329,221 +218,113 @@
   const baseInfo = document.getElementById('baseInfo');
 
   async function fetchBase(){
-    const { data, error } = await supa
-      .from('base')
-      .select('cte, emissao, nf, valor_servico, fatura')
-      .order('cte', { ascending: true })
-      .limit(5000);
+    const { data, error } = await supa.from('base').select('cte, emissao, nf, valor_servico, fatura').order('cte',{ascending:true}).limit(5000);
     if(error){ alert(error.message); return []; }
     return data||[];
   }
   async function renderBaseTable(){
     const base = await fetchBase();
     baseTableBody.innerHTML = base.slice(0,1000).map(r => `
-      <tr>
-        <td>${r.cte}</td>
-        <td>${isoToBR(r.emissao)}</td>
-        <td>${r.nf||''}</td>
-        <td>${toBRL(r.valor_servico||0)}</td>
-      </tr>
+      <tr><td>${r.cte}</td><td>${isoToBR(r.emissao)}</td><td>${r.nf||''}</td><td>${toBRL(r.valor_servico||0)}</td></tr>
     `).join('');
-    baseInfo.textContent = base.length
-      ? `Base carregada com ${base.length} linhas.`
-      : 'Nenhuma base carregada ainda.';
+    baseInfo.textContent = base.length ? `Base carregada com ${base.length} linhas.` : 'Nenhuma base carregada ainda.';
     window.__BASE_CACHE = base;
   }
 
   btnImport.addEventListener('click', async () => {
-    const file = fileInput.files?.[0];
-    if(!file){ alert('Selecione um arquivo XLSX.'); return; }
+    const file = fileInput.files?.[0]; if(!file){ alert('Selecione um arquivo XLSX.'); return; }
+    let fatura = prompt('Informe o número da fatura desta importação:'); if(fatura===null) return; fatura=String(fatura).trim(); if(!fatura){ alert('Número da fatura é obrigatório.'); return; }
 
-    let fatura = prompt('Informe o número da fatura desta importação:');
-    if(fatura === null) return;
-    fatura = String(fatura).trim();
-    if(!fatura){ alert('Número da fatura é obrigatório.'); return; }
-
-    const data = await file.arrayBuffer();
-    const wb = XLSX.read(data, { type:'array' });
-    const ws = wb.Sheets[wb.SheetNames[0]];
-
-    const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true, cellDates:true });
-    if(rows.length < 2){ alert('Planilha vazia.'); return; }
-    const header = rows[0].map(String);
-
-    const find = (alts)=> header.findIndex(h => alts.some(a => h.toLowerCase().includes(a)));
-    const idxCTE = find(['ct-e','cte','ct e','minuta']);
-    const idxEmi = find(['emissao','emissão']);
-    const idxNF  = find(['nota fiscal','nf']);
-    const idxVS  = find(['valor servico','valor serviço','valor do servico','valor do serviço']);
+    const data = await file.arrayBuffer(); const wb = XLSX.read(data,{ type:'array' }); const ws = wb.Sheets[wb.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(ws,{ header:1, raw:true, cellDates:true }); if(rows.length<2){ alert('Planilha vazia.'); return; }
+    const header = rows[0].map(String); const find = (alts)=> header.findIndex(h => alts.some(a => h.toLowerCase().includes(a)));
+    const idxCTE=find(['ct-e','cte','ct e','minuta']), idxEmi=find(['emissao','emissão']), idxNF=find(['nota fiscal','nf']), idxVS=find(['valor servico','valor serviço','valor do servico','valor do serviço']);
     if([idxCTE,idxEmi,idxNF,idxVS].some(i=>i<0)){ alert('Não encontrei as colunas esperadas.'); return; }
 
     const payload = [];
     for(let i=1;i<rows.length;i++){
-      const r = rows[i]||[];
-      const cte = String(r[idxCTE]??'').trim();
-      if(!cte) continue;
-      payload.push({
-        cte,
-        emissao: toISOfromXLSX(r[idxEmi]),
-        nf: (r[idxNF]!==undefined && r[idxNF]!==null) ? String(r[idxNF]) : null,
-        valor_servico: parseMoney(r[idxVS]),
-        fatura
-      });
+      const r=rows[i]||[]; const cte=String(r[idxCTE]??'').trim(); if(!cte) continue;
+      payload.push({ cte, emissao: toISOfromXLSX(r[idxEmi]), nf: (r[idxNF]!=null?String(r[idxNF]):null), valor_servico: parseMoney(r[idxVS]), fatura });
     }
-
-    const { error } = await supa.from('base').upsert(payload, { onConflict: 'cte' });
-    if(error){ alert('Erro ao mesclar base: ' + error.message); return; }
-    await renderBaseTable();
-    alert(`Base mesclada para a fatura ${fatura}.\nTotal processado: ${payload.length}`);
+    const { error } = await supa.from('base').upsert(payload,{ onConflict:'cte' });
+    if(error){ alert('Erro ao mesclar base: '+error.message); return; }
+    await renderBaseTable(); alert(`Base mesclada para a fatura ${fatura}. Total processado: ${payload.length}`);
   });
 
-  btnClearBase.addEventListener('click', async () => {
-    if(!confirm('Deseja APAGAR toda a BASE?')) return;
-    const { error } = await supa.from('base').delete().neq('cte',''); // tudo
-    if(error){ alert(error.message); return; }
-    await renderBaseTable();
-  });
+  btnClearBase.addEventListener('click', async ()=>{ if(!confirm('Deseja APAGAR toda a BASE?')) return;
+    const { error } = await supa.from('base').delete().neq('cte',''); if(error){ alert(error.message); return; } await renderBaseTable(); });
 
-  /* ---------- Lançamento ---------- */
-  const inpCTE = document.getElementById('inpCTE');
-  const inpEmissao = document.getElementById('inpEmissao');
-  const inpNFBase = document.getElementById('inpNFBase');
-  const inpValorServico = document.getElementById('inpValorServico');
-  const inpValorNF = document.getElementById('inpValorNF');
-  const inpICMS = document.getElementById('inpICMS');
-  const inpCobrar = document.getElementById('inpCobrar');
-  const selQuinzena = document.getElementById('selQuinzena');
-  const btnSalvar = document.getElementById('btnSalvar');
-  const launchMsg = document.getElementById('launchMsg');
+  /* Lançamento */
+  const inpCTE = document.getElementById('inpCTE'), inpEmissao = document.getElementById('inpEmissao'),
+        inpNFBase = document.getElementById('inpNFBase'), inpValorServico = document.getElementById('inpValorServico'),
+        inpValorNF = document.getElementById('inpValorNF'), inpICMS = document.getElementById('inpICMS'),
+        inpCobrar = document.getElementById('inpCobrar'), selQuinzena = document.getElementById('selQuinzena'),
+        btnSalvar = document.getElementById('btnSalvar'), launchMsg = document.getElementById('launchMsg');
 
-  [ inpValorNF, inpICMS ].forEach(setMoneyMask);
-
-  function buscarPorCTE(cte){
-    const base = window.__BASE_CACHE || [];
-    const norm = String(cte||'').replace(/\s/g,'').replace(/[\\-]/g,'/').toLowerCase();
-    return base.find(r => String(r.cte).replace(/\s/g,'').replace(/[\\-]/g,'/').toLowerCase() === norm);
-  }
-  function preencherBase(r){
-    if(!r){
-      inpEmissao.value = '';
-      inpNFBase.value = '';
-      inpValorServico.value = '';
-      selQuinzena.value = '1';
-      inpCobrar.value = '';
-      return;
-    }
-    inpEmissao.value = isoToBR(r.emissao);
-    inpNFBase.value = r.nf || '';
-    inpValorServico.value = toBRL(r.valor_servico||0);
-    selQuinzena.value = String(calcQuinzenaFromISO(r.emissao));
-    recalcLancamento();
-  }
-  function recalcLancamento(){
-    const vnf = parseMoney(inpValorNF.value);
-    const ic  = parseMoney(inpICMS.value);
-    const calc = (vnf - ic) * 0.40;
-    inpCobrar.value = toBRL(calc);
-  }
-  inpValorNF.addEventListener('input', recalcLancamento);
-  inpICMS.addEventListener('input', recalcLancamento);
-  inpCTE.addEventListener('input', () => { preencherBase(buscarPorCTE(inpCTE.value)); });
+  [inpValorNF, inpICMS].forEach(setMoneyMask);
+  function buscarPorCTE(cte){ const base=window.__BASE_CACHE||[]; const norm=String(cte||'').replace(/\s/g,'').replace(/[\\-]/g,'/').toLowerCase();
+    return base.find(r => String(r.cte).replace(/\s/g,'').replace(/[\\-]/g,'/').toLowerCase()===norm); }
+  function preencherBase(r){ if(!r){ inpEmissao.value=''; inpNFBase.value=''; inpValorServico.value=''; selQuinzena.value='1'; inpCobrar.value=''; return; }
+    inpEmissao.value=isoToBR(r.emissao); inpNFBase.value=r.nf||''; inpValorServico.value=toBRL(r.valor_servico||0); selQuinzena.value=String(calcQuinzenaFromISO(r.emissao)); recalcLancamento(); }
+  function recalcLancamento(){ const vnf=parseMoney(inpValorNF.value), ic=parseMoney(inpICMS.value); const calc=(vnf-ic)*0.40; inpCobrar.value=toBRL(calc); }
+  inpValorNF.addEventListener('input', recalcLancamento); inpICMS.addEventListener('input', recalcLancamento);
+  inpCTE.addEventListener('input', ()=>{ preencherBase(buscarPorCTE(inpCTE.value)); });
 
   btnSalvar.addEventListener('click', async () => {
-    const cte = inpCTE.value.trim();
-    if(!cte){ alert('Informe o CT-e/Minuta.'); return; }
-    const baseRow = buscarPorCTE(cte);
-    if(!baseRow){ alert('CT-e/Minuta não encontrado na base.'); return; }
+    const cte = inpCTE.value.trim(); if(!cte){ alert('Informe o CT-e/Minuta.'); return; }
+    const baseRow = buscarPorCTE(cte); if(!baseRow){ alert('CT-e/Minuta não encontrado na base.'); return; }
 
-    const valorNF = parseMoney(inpValorNF.value);
-    const icms    = parseMoney(inpICMS.value);
-    const cobrar  = (valorNF - icms) * 0.40;
-    const diferenca = Number(cobrar) - Number(baseRow.valor_servico||0);
+    const valorNF = parseMoney(inpValorNF.value), icms = parseMoney(inpICMS.value);
+    const cobrar = (valorNF - icms) * 0.40; const diferenca = Number(cobrar) - Number(baseRow.valor_servico||0);
 
-    const mesAno = monthKeyFromISO(baseRow.emissao);
+    // NÃO enviamos mes_ano: o banco gera (INTEGER YYYYMM)
+    const payload = { cte: baseRow.cte, emissao: baseRow.emissao, nf_base: baseRow.nf, valor_servico: baseRow.valor_servico,
+      valor_nf: valorNF, icms, cobrar, diferenca, quinzena: Number(selQuinzena.value), fatura: baseRow.fatura || null };
 
-    // upsert por (cte, mes_ano) no Supabase
-    const payload = {
-      cte: baseRow.cte,
-      emissao: baseRow.emissao,  // ISO
-      nf_base: baseRow.nf,
-      valor_servico: baseRow.valor_servico,
-      valor_nf: valorNF,
-      icms,
-      cobrar,
-      diferenca,
-      quinzena: Number(selQuinzena.value),
-      mes_ano: mesAno,
-      fatura: baseRow.fatura || null
-    };
-
-    // Supabase v2: Upsert aceita onConflict múltiplo "cte,mes_ano"
     const { error } = await supa.from('registros').upsert(payload, { onConflict: 'cte,mes_ano' });
     if(error){ alert('Erro ao salvar: ' + error.message); return; }
 
-    launchMsg.textContent = 'Registro salvo.';
-    setTimeout(()=>launchMsg.textContent='', 2000);
+    launchMsg.textContent = 'Registro salvo.'; setTimeout(()=>launchMsg.textContent='', 2000);
     [inpValorNF, inpICMS].forEach(i => i.value=''); inpCobrar.value='';
 
-    inpMesAno.value = mesAno;
-    filtroQuinzena.value = String(payload.quinzena);
-    await renderRegs();
-    goTab('registros');
+    // posiciona filtro por mês da Emissão
+    const monthStr = (baseRow.emissao||'').slice(0,7); if(monthStr) document.getElementById('inpMesAno').value = monthStr;
+    document.getElementById('filtroQuinzena').value = String(payload.quinzena);
+    await renderRegs(); goTab('registros');
   });
 
-  /* ---------- Registros ---------- */
-  const regTableBody = document.querySelector('#regTable tbody');
-  const regInfo = document.getElementById('regInfo');
-  const inpMesAno = document.getElementById('inpMesAno');
-  const filtroQuinzena = document.getElementById('filtroQuinzena');
-  const btnAplicarFiltro = document.getElementById('btnAplicarFiltro');
-  const btnExportar = document.getElementById('btnExportar');
-  const btnClearReg = document.getElementById('btnClearReg');
+  /* Registros */
+  const regTableBody = document.querySelector('#regTable tbody'), regInfo = document.getElementById('regInfo'),
+        inpMesAno = document.getElementById('inpMesAno'), filtroQuinzena = document.getElementById('filtroQuinzena'),
+        btnAplicarFiltro = document.getElementById('btnAplicarFiltro'), btnExportar = document.getElementById('btnExportar'),
+        btnClearReg = document.getElementById('btnClearReg');
 
-  const tQtd = document.getElementById('tQtd');
-  const tVS = document.getElementById('tVS');
-  const tVNF = document.getElementById('tVNF');
-  const tICMS = document.getElementById('tICMS');
-  const tCobrar = document.getElementById('tCobrar');
-  const tDif = document.getElementById('tDif');
+  const tQtd = document.getElementById('tQtd'), tVS = document.getElementById('tVS'), tVNF = document.getElementById('tVNF'),
+        tICMS = document.getElementById('tICMS'), tCobrar = document.getElementById('tCobrar'), tDif = document.getElementById('tDif');
 
-  (function applyDefaultMonth(){
-    const now = new Date();
-    const v = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-    if(!inpMesAno.value) inpMesAno.value = v;
-  })();
+  (function applyDefaultMonth(){ const now=new Date(); const v=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`; if(!inpMesAno.value) inpMesAno.value=v; })();
 
-  function getFilter(){ return { mes: inpMesAno.value, qz: filtroQuinzena.value } }
+  function yyyymmFromInput(){ return inpMesAno.value ? Number(inpMesAno.value.replace('-','')) : null; }
 
   async function fetchRegs(){
-    const { mes, qz } = getFilter();
-    let q = supa.from('registros').select('*').order('emissao', { ascending:true });
-    if(mes) q = q.eq('mes_ano', mes);
-    if(qz && qz !== 'all') q = q.eq('quinzena', Number(qz));
-    const { data, error } = await q;
-    if(error){ alert(error.message); return []; }
-    return data||[];
+    const yyyymm = yyyymmFromInput(); const qz = filtroQuinzena.value;
+    let q = supa.from('registros').select('*').order('emissao',{ascending:true});
+    if(yyyymm) q = q.eq('mes_ano', yyyymm);
+    if(qz && qz!=='all') q = q.eq('quinzena', Number(qz));
+    const { data, error } = await q; if(error){ alert(error.message); return []; } return data||[];
   }
-
-  function renderTotals(list){
-    const sum = (arr, key) => arr.reduce((acc,x)=>acc + Number(x[key]||0), 0);
-    tQtd.textContent = list.length;
-    tVS.textContent = toBRL(sum(list,'valor_servico'));
-    tVNF.textContent = toBRL(sum(list,'valor_nf'));
-    tICMS.textContent = toBRL(sum(list,'icms'));
-    tCobrar.textContent = toBRL(sum(list,'cobrar'));
-    tDif.textContent = toBRL(sum(list,'diferenca'));
-  }
+  function renderTotals(list){ const sum=(arr,key)=>arr.reduce((a,x)=>a+Number(x[key]||0),0);
+    tQtd.textContent=list.length; tVS.textContent=toBRL(sum(list,'valor_servico')); tVNF.textContent=toBRL(sum(list,'valor_nf'));
+    tICMS.textContent=toBRL(sum(list,'icms')); tCobrar.textContent=toBRL(sum(list,'cobrar')); tDif.textContent=toBRL(sum(list,'diferenca')); }
 
   async function renderRegs(){
     const list = await fetchRegs();
-    regTableBody.innerHTML = list.map(r => {
-      const diff = Number(r.diferenca||0);
-      const diffClass = diff === 0 ? 'diff zero' : 'diff nonzero';
-      const vs = Number(r.valor_servico||0);
-      let vsHtml = `<span class="vs">${toBRL(vs)}</span>`;
-      if(vs === 0){ vsHtml = `<span class="vs vs-zero" title="Valor Serviço zerado">⚠️ ${toBRL(vs)}</span>`; }
-      else if(vs === 36){ vsHtml = `<span class="vs vs-36">${toBRL(vs)}</span>`; }
-
+    regTableBody.innerHTML = list.map(r=>{
+      const diff=Number(r.diferenca||0), diffClass=(diff===0?'diff zero':'diff nonzero');
+      const vs=Number(r.valor_servico||0); let vsHtml=`<span class="vs">${toBRL(vs)}</span>`;
+      if(vs===0){ vsHtml=`<span class="vs vs-zero" title="Valor Serviço zerado">⚠️ ${toBRL(vs)}</span>`; }
+      else if(vs===36){ vsHtml=`<span class="vs vs-36">${toBRL(vs)}</span>`; }
+      const mesStr = (r.emissao||'').slice(0,7); // mostra YYYY-MM a partir da emissão
       return `
       <tr data-id="${r.id}">
         <td>${r.cte}</td>
@@ -555,21 +336,18 @@
         <td class="valcobrar">${toBRL(r.cobrar)}</td>
         <td class="${diffClass}">${toBRL(diff)}</td>
         <td class="valqz">${r.quinzena}ª</td>
-        <td>${r.mes_ano}</td>
+        <td>${mesStr}</td>
         <td>${r.fatura||''}</td>
         <td>
           <button class="icon-btn" data-action="edit" title="Editar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 20h9"/>
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/>
             </svg>
           </button>
           <button class="icon-btn danger" data-action="delete" title="Excluir">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="3 6 5 6 21 6"/>
-              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-              <path d="M10 11v6M14 11v6"/>
-              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+              <path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
             </svg>
           </button>
         </td>
@@ -582,100 +360,63 @@
   }
 
   regTableBody.addEventListener('click', async (ev)=>{
-    const btn = ev.target.closest('button[data-action]');
-    if(!btn) return;
-    const tr = btn.closest('tr');
-    const id = tr.dataset.id;
-    const action = btn.dataset.action;
+    const btn = ev.target.closest('button[data-action]'); if(!btn) return;
+    const tr = btn.closest('tr'); const id = tr.dataset.id; const action = btn.dataset.action;
 
     if(action==='edit'){
-      const tdNF = tr.querySelector('.valnf');
-      const tdIC = tr.querySelector('.valicms');
-      const tdCB = tr.querySelector('.valcobrar');
-
+      const tdNF = tr.querySelector('.valnf'); const tdIC = tr.querySelector('.valicms'); const tdCB = tr.querySelector('.valcobrar');
       tdNF.innerHTML = `<input class="edit-nf" value="${tdNF.textContent.trim()}" style="width:140px;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--input);color:var(--text)">`;
       tdIC.innerHTML = `<input class="edit-icms" value="${tdIC.textContent.trim()}" style="width:140px;padding:6px 10px;border-radius:8px;border:1px solid var(--border);background:var(--input);color:var(--text)">`;
-
       [tdNF.querySelector('input'), tdIC.querySelector('input')].forEach(setMoneyMask);
-
-      function live(){
-        const vnf = parseMoney(tdNF.querySelector('input').value);
-        const vic = parseMoney(tdIC.querySelector('input').value);
-        const cobrar = (vnf - vic) * 0.40;
-        tdCB.textContent = toBRL(cobrar);
-      }
-      tdNF.querySelector('input').addEventListener('input', live);
-      tdIC.querySelector('input').addEventListener('input', live);
-      live();
-
+      function live(){ const vnf=parseMoney(tdNF.querySelector('input').value), vic=parseMoney(tdIC.querySelector('input').value); const cobrar=(vnf - vic)*0.40; tdCB.textContent = toBRL(cobrar); }
+      tdNF.querySelector('input').addEventListener('input', live); tdIC.querySelector('input').addEventListener('input', live); live();
       btn.outerHTML = `<button class="btn sm success" data-action="save">Salvar</button>`;
       tr.querySelector('button[data-action="delete"]').outerHTML = `<button class="btn sm" data-action="cancel">Cancelar</button>`;
       return;
     }
-
     if(action==='cancel'){ await renderRegs(); return; }
 
     if(action==='save'){
-      const nfV = parseMoney(tr.querySelector('.edit-nf').value);
-      const icV = parseMoney(tr.querySelector('.edit-icms').value);
+      const nfV = parseMoney(tr.querySelector('.edit-nf').value), icV = parseMoney(tr.querySelector('.edit-icms').value);
       const cobrar = (nfV - icV) * 0.40;
-
-      // precisamos do valor_servico para recompor diferença; busque a linha atual
       const { data: cur, error: e0 } = await supa.from('registros').select('valor_servico').eq('id', id).maybeSingle();
       if(e0){ alert(e0.message); return; }
       const diff = cobrar - Number(cur?.valor_servico||0);
-
       const { error } = await supa.from('registros').update({ valor_nf: nfV, icms: icV, cobrar, diferenca: diff }).eq('id', id);
       if(error){ alert(error.message); return; }
-      await renderRegs();
-      return;
+      await renderRegs(); return;
     }
 
     if(action==='delete'){
       if(!confirm('Excluir o registro?')) return;
       const { error } = await supa.from('registros').delete().eq('id', id);
       if(error){ alert(error.message); return; }
-      await renderRegs();
-      return;
+      await renderRegs(); return;
     }
   });
 
   btnAplicarFiltro.addEventListener('click', renderRegs);
 
   btnExportar.addEventListener('click', async () => {
-    // exporta os registros do filtro atual
-    const list = await fetchRegs();
-    if(!list.length){ alert('Nada para exportar.'); return; }
+    const list = await fetchRegs(); if(!list.length){ alert('Nada para exportar.'); return; }
     const data = list.map(r => ({
-      'CT-e/Minuta': r.cte,
-      'Emissão': isoToBR(r.emissao),
-      'Nota Fiscal (base)': r.nf_base||'',
-      'Valor Serviço (base)': toBRL(r.valor_servico),
-      'Valor da NF': toBRL(r.valor_nf),
-      'ICMS/Imp Repassado': toBRL(r.icms),
-      'Valor a Cobrar ((NF − ICMS) × 40%)': toBRL(r.cobrar),
-      'Diferença (Cobrar − VS)': toBRL(r.diferenca),
-      'Quinzena': `${r.quinzena}ª`,
-      'Mês/Ano': r.mes_ano,
-      'Fatura': r.fatura || ''
+      'CT-e/Minuta': r.cte, 'Emissão': isoToBR(r.emissao), 'Nota Fiscal (base)': r.nf_base||'',
+      'Valor Serviço (base)': toBRL(r.valor_servico), 'Valor da NF': toBRL(r.valor_nf),
+      'ICMS/Imp Repassado': toBRL(r.icms), 'Valor a Cobrar ((NF − ICMS) × 40%)': toBRL(r.cobrar),
+      'Diferença (Cobrar − VS)': toBRL(r.diferenca), 'Quinzena': `${r.quinzena}ª`, 'Mês/Ano': (r.emissao||'').slice(0,7), 'Fatura': r.fatura||''
     }));
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Registros');
+    const ws = XLSX.utils.json_to_sheet(data); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Registros');
     XLSX.writeFile(wb, `Registros_${inpMesAno.value || 'todos'}_${filtroQuinzena.value}.xlsx`);
   });
 
-  btnClearReg.addEventListener('click', async () => {
-    if(!confirm('Apagar TODOS os registros?')) return;
+  btnClearReg.addEventListener('click', async ()=>{ if(!confirm('Apagar TODOS os registros?')) return;
     const { error } = await supa.from('registros').delete().neq('id','00000000-0000-0000-0000-000000000000');
     if(error){ alert(error.message); return; }
     await renderRegs();
   });
 
-  /* ---------- Boot ---------- */
-  await renderBaseTable();
-  await renderRegs();
-
+  /* Boot */
+  await renderBaseTable(); await renderRegs();
 </script>
 </body>
 </html>
